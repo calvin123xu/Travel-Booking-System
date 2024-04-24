@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Package
+from .models import Package, BookingDetail,BookingSummary,CheckoutAddress
 from .models import Activity
 from .models import Flight
 from .models import Hotel
@@ -60,3 +60,43 @@ class HotelSerializer(serializers.ModelSerializer):
       class Meta:
         model =  Hotel
         fields ='__all__'
+
+class CheckoutAddressSerializer(serializers.ModelSerializer):
+      class Meta:
+        model =  CheckoutAddress
+        fields ='__all__'
+
+class BookingSummarySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BookingSummary
+        fields = '__all__'
+
+class BookingDetailSerializer(serializers.ModelSerializer):
+    bookingSummary = serializers.SerializerMethodField(read_only=True)
+    checkoutAddress = serializers.SerializerMethodField(read_only=True)
+    user = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = BookingDetail
+        fields = '__all__'  # You might specify fields directly instead of using '__all__'
+
+    def get_bookingSummary(self, obj):
+        # Fetching all BookingSummary instances related to this BookingDetail
+        booking_items = obj.bookingsummary_set.all()
+        return BookingSummarySerializer(booking_items, many=True).data
+
+    def get_checkoutAddress(self, obj):
+        # Ensuring that the CheckoutAddress is serialized if it exists
+        try:
+            address = CheckoutAddressSerializer(obj.checkoutaddress).data
+        except CheckoutAddress.DoesNotExist:
+            address = None
+        return address
+
+    def get_user(self, obj):
+        # Serializing the user associated with the BookingDetail
+        if obj.user:
+            return UserSerializer(obj.user).data
+        return None
+
+
