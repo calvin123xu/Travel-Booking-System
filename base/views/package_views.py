@@ -19,7 +19,11 @@ from rest_framework import status
 
 @api_view(['GET'])
 def getPackages(request):
-    Packages = Package.objects.all()
+    query = request.query_params.get('keyword')
+    print('query:',query)
+    if query == None:
+        query = ''
+    Packages = Package.objects.filter(name__icontains=query)
     serializer = PackageSerializer(Packages, many=True)
     return Response(serializer.data)
 
@@ -28,6 +32,51 @@ def getPackage(request,pk):
     package = Package.objects.get(id=pk)
     serializer = PackageSerializer(package, many=False)
     return Response(serializer.data)
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def createPackage(request):
+    user = request.user
+    package = Package.objects.create(
+          user=user,
+          name='Sample Name',
+          Price=0,
+          description = 'Sample description',
+          besttimetovisit = 'Sample',
+          flightdetails = 'Sample',
+          flightduration = '0',
+          activities = 'Sample',
+          Hotel = 'Sample',
+        
+    )
+    serializer = PackageSerializer(package, many=False)
+    return Response(serializer.data)   
+
+@api_view(['PUT'])
+@permission_classes([IsAdminUser])
+def updatePackage(request,pk):
+    data = request.data
+    package = Package.objects.get(id=pk)
+    package.name = data['name']
+    package.Price = data['Price']
+    package.description = data['description']
+    package.besttimetovisit = data['besttimetovisit']
+    package.flightdetails = data['flightdetails']
+    package.flightduration = data['flightduration']
+    package.activities = data['activities ']
+    package.Hotel = data['Hotel']
+    
+    package.save()
+    serializer = PackageSerializer(package, many=False)
+    return Response(serializer.data)
+
+
+
+@api_view(['DELETE'])
+def deletePackage(request,pk):
+    package = Package.objects.get(id=pk)
+    package.delete()
+    return Response('Package Deleted')
 
 @api_view(['GET'])
 def getActivities(request):

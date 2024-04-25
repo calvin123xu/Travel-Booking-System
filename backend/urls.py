@@ -26,10 +26,11 @@ urlpatterns = [
     #path('api/', include('base.urls')),
     path('api/Packages/', include('base.urls.package_urls')),
     path('api/users/', include('base.urls.user_urls')),
-    path('api/orders/', include('base.urls.order_urls')),
+    #path('api/orders/', include('base.urls.order_urls')),
     path('api/Flights/', include('base.urls.flight_urls')),
     path('api/Activities/', include('base.urls.activity_urls')),
     path('api/Hotels/', include('base.urls.hotel_urls')),
+    path('api/bookings/', include('base.urls.order_urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

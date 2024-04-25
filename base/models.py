@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class Package(models.Model):
    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
    name =  models.CharField(max_length=200, null=True, blank=True)
-   image = models.ImageField(null=True, blank=True)
+   image = models.ImageField(null=True, blank=True, default='/placeholder.png')
    description = models.TextField(null=True, blank=True)
    besttimetovisit = models.CharField(max_length=200, null=True, blank=True)
    flightdetails = models.CharField(max_length=200, null=True, blank=True)
@@ -52,6 +52,16 @@ class BookingSummary(models.Model):
     id = models.AutoField(primary_key=True, editable=False)
     def  __str__(self):
         return str(self.name)
+
+class CheckoutAddress(models.Model):
+    bookingDetail = models.OneToOneField(BookingDetail, on_delete=models.CASCADE, null = True, blank = True)
+    address = models.CharField(max_length=200, null = True, blank = True)
+    city = models.CharField(max_length=100, null = True, blank = True)
+    postalCode = models.CharField(max_length=50, null = True, blank = True)
+    country = models.CharField(max_length=100, null = True, blank = True)
+    id = models.AutoField(primary_key=True, editable=False)
+    def  __str__(self):
+        return str(self.address)
 
 class Activity(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
