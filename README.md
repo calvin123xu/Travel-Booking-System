@@ -1,1 +1,8 @@
 Given our hectic schedules and examination commitments, we coordinated our efforts by scheduling meetings where all team members were present to collaboratively work on the code. However, we encountered issues with errors emerging when team members attempted to push their individual contributions to the repository. To resolve this, we consolidated our efforts by manually integrating the code from each team member into a single unified version on Akhil's laptop. This approach allowed us to thoroughly debug and refine the code collectively before committing the final version to the repository. Consequently, the repository reflects only one git push, which was executed from Akhil's account. For insights into the individual contributions of each team member, their respective tasks and progress are documented and can be reviewed on JIRA and through our daily scrum updates.
+In this Sprint, we did - 1.  Developed a user interface for agents that allows them to perform all tasks directly from the frontend, which were previously handled in 
+                             the backend.
+                         2.  Implemented the PayPal system for secure payment processing.
+                         3.  Enhanced the platform with a search functionality button for improved navigation.
+                         4.  Designed a user profile interface that displays detailed information about users and their bookings.
+                         5.  Created screens for agents, facilitating the management of user accounts and travel packages, as well as the capability to introduce new 
+                             packages. 
